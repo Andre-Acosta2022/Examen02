@@ -1,0 +1,61 @@
+<app-home></app-home>
+
+<div style="margin: 0px 300px;">
+    <h1>Tabla Libros</h1>
+    <p-button (onClick)="showDialog()" icon="pi pi-plus" severity="success" />
+<p-table [value]="libros" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>#</th>
+            <th>Titulo</th>
+            <th>paginas</th>
+            <th>edicion</th>
+            <th>Estado</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-libro let-i="rowIndex">
+        <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ libro.titulo }}</td>
+            <td>{{ libro.paginas  }}</td>
+            <td>{{ libro.edicion }}</td>
+            <td>{{ libro.estado}}</td>
+            <td>
+                <p-buttonGroup>
+                    <p-button icon="pi pi-pencil" severity="help" [rounded]="true" (onClick)="selectLibros(libros)" />
+                    <p-button icon="pi pi-times" severity="danger" [rounded]="true" (onClick)="eliminarLibro(libro.id)" />
+                </p-buttonGroup>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+
+<p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <h1 class="modal-title fs-5" *ngIf="!isUpdate">Agregar Libro</h1>
+    <h1 class="modal-title fs-5" *ngIf="isUpdate">Actualizar Libro</h1>
+    <form [formGroup]="formLibro">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="titulo" class="font-semibold w-6rem">titulo</label>
+            <input pInputText id="titulo" class="flex-auto" formControlName="titulo" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="paginas" class="font-semibold w-6rem">paginas</label>
+            <input pInputText id="paginas" class="flex-auto"  formControlName="paginas" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="edicion" class="font-semibold w-6rem">edicion</label>
+            <input pInputText id="edicion" class="flex-auto" formControlName="edicion" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="estado" class="font-semibold w-6rem">Estado</label>
+            <input pInputText id="estado" class="flex-auto" formControlName="estado" />
+        </div>
+    </form>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancelar" severity="secondary" (onClick)="visible = false" />
+        <p-button label="Agregar" (onClick)="CrearLibros()" *ngIf="!isUpdate" />
+        <p-button label="Actualizar" (onClick)="actualizarLibro()" *ngIf="isUpdate"/>
+    </div>
+</p-dialog>
